@@ -17,7 +17,7 @@ export default function useFetchRepo(repos: string[]) {
   useEffect(() => {
     const fetchRepo = async () => {
       try {
-        const baseUrl = window.location.hostname;
+        const baseUrl = window.location.origin;
         const apis = repos.map((repo) =>
           fetch(`${baseUrl}/api/github?repo=${repo}`)
         );
