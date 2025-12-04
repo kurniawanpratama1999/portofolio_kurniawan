@@ -23,7 +23,7 @@ export default async function handler(req: any, res: any) {
     `https://api.github.com/repos/kurniawanpratama1999/${repo}/commits`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.GH_TOKEN}`,
+        Authorization: `Bearer ${process.env.GH_KEY}`,
         "User-Agent": "portfolio-app",
         Accept: "application/vnd.github+json",
       },
@@ -31,7 +31,6 @@ export default async function handler(req: any, res: any) {
   );
 
   const commits = await commitsRes.json();
-
   const totalCommit = Array.isArray(commits) ? commits.length : 0;
   const lastCommit =
     Array.isArray(commits) && commits[0]?.commit?.author?.date
@@ -39,6 +38,7 @@ export default async function handler(req: any, res: any) {
       : null;
 
   res.status(200).json({
+    description: repoData.description,
     stars: repoData.stargazers_count,
     forks: repoData.forks_count,
     created_at: repoData.created_at,

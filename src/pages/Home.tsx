@@ -14,15 +14,18 @@ import { GoRepoForked } from "@react-icons/all-files/go/GoRepoForked";
 import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
 import { FiFolderPlus } from "@react-icons/all-files/fi/FiFolderPlus";
 import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
+import * as motion from "motion/react-client"
 import { useEffect } from "react";
 
-// import useRepoStatus from "@/lib/useRepoStatus";
+import useFetchRepo from "@/lib/useFetchRepo";
+import { Skeleton } from "@/components/ui/skeleton";
+import { NavLink } from "react-router";
 
 const Hero = () => {
   return <section className="w-full">
     <div className="container mx-auto min-h-screen content-center">
       <div className="grid lg:grid-cols-2 gap-10 max-lg:p-5">
-        <div className="content-center max-lg:order-2">
+        <motion.div initial={{ x: '-100%' }} whileInView={{ x: 0 }} className="content-center max-lg:order-2">
           <h1 className="text-4xl font-bold">Hello Everyone 👋</h1>
           <p className="text-3xl font-bold">I am Kurniawan Pratama</p>
           <p className="text-neutral-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quam cumque natus quaerat exercitationem voluptates labore! Excepturi, tempore error. Commodi ipsam recusandae laudantium odit sit aut placeat rem nulla atque.</p>
@@ -82,54 +85,78 @@ const Hero = () => {
               Github
             </Badge>
           </div>
-        </div>
-        <div className="border aspect-square rounded-4xl bg-slate-300 shadow w-full max-w-130 mx-auto relative overflow-hidden max-lg:order-1">
+        </motion.div>
+        <motion.div initial={{ scale: '10%' }} whileInView={{ scale: '100%' }} className="border aspect-square rounded-4xl bg-slate-300 shadow w-full max-w-130 mx-auto relative overflow-hidden max-lg:order-1">
           <img src="/me-black-and-white-at-ppkd.jpg" alt="me-at-ppkd" className="w-full absolute scale-150 -top-36" />
-        </div>
+        </motion.div>
       </div>
     </div>
   </section>
 }
 
 const Project = () => {
-  // const { datas, loading, error } = useRepoStatus({ username: 'kurniawanpratama1999', repos: ['LARAPOS425', 'miesabi-laravel10', 'LAUNDRY425'] })
-  // console.log({ datas, loading, error })
+  const repos = ['LARAPOS425', 'miesabi-laravel10']
+  const { data, loading } = useFetchRepo(repos)
+
   return <section className="w-full">
-    <div className="container mx-auto min-h-screen">
+    <div className="container mx-auto pb-10">
       <div className="grid max-xl:grid-cols-2 grid-cols-3 gap-10">
 
-        {[1, 2, 3].map(v =>
-          <Card key={v}>
+        {loading ? [...repos].map(() =>
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between font-normal">
-                <h3 className="font-bold">Larapos425</h3>
+                <Skeleton className="h-7 rounded-full w-3/4" />
                 <div className="flex items-center gap-3 justify-end">
-                  <div className="flex items-center">
-                    <GoRepoForked />
-                    <span></span>
-                  </div>
-                  <div className="flex items-center">
-                    <FaRegStar />
-                    <span></span>
-                  </div>
+                  <Skeleton className="w-7 aspect-square rounded-full" />
+                  <Skeleton className="w-7 aspect-square rounded-full" />
                 </div>
               </CardTitle>
               <CardDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque odio illum reiciendis ea ex? Molestiae reprehenderit doloremque possimus veritatis obcaecati.
+                <Skeleton className="w-full h-32 rounded-2xl" />
               </CardDescription>
+              <CardFooter className="grid grid-cols-2 gap-10 items-start justify-between">
+                <Skeleton className="w-full h-7 rounded-2xl" />
+                <Skeleton className="w-full h-7 rounded-2xl" />
+              </CardFooter>
             </CardHeader>
-            <CardFooter className="flex items-start justify-between">
-              <Badge className="flex items-center gap-1 bg-emerald-400">
-                <FiFolderPlus />
-                <span></span>
-              </Badge>
-              <Badge className="flex items-center gap-1 bg-blue-400">
-                <GoGitCommit />
-                <span></span>
-              </Badge>
-            </CardFooter>
-          </Card>
-        )}
+          </Card>)
+          :
+          [...data].map((v, k) =>
+            <NavLink to={`https://github.com/kurniawanpratama1999/${repos[k]}`}>
+              <Card key={v.created_at + "-" + k}>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between font-normal">
+                    <h3 className="font-bold">{repos[k]}</h3>
+                    <div className="flex items-center gap-3 justify-end">
+                      <div className="flex items-center gap-1">
+                        <GoRepoForked />
+                        <span>{v.forks}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <FaRegStar />
+                        <span>{v.stars}</span>
+                      </div>
+                    </div>
+                  </CardTitle>
+                  <CardDescription>
+                    {v.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter className="flex items-start justify-between">
+                  <Badge className="flex items-center gap-1 bg-emerald-400">
+                    <FiFolderPlus />
+                    <span>{v.created_at}</span>
+                  </Badge>
+                  <Badge className="flex items-center gap-1 bg-blue-400">
+                    <GoGitCommit />
+                    <span>{v.last_commit}</span>
+                  </Badge>
+                </CardFooter>
+              </Card>
+
+            </NavLink>
+          )}
       </div>
     </div>
   </section>
