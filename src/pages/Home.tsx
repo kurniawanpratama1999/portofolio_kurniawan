@@ -102,8 +102,8 @@ const Project = () => {
       <h2 className="text-2xl font-bold mb-4 text-center underline text-emerald-600">My Repositories</h2>
       <div className="grid max-sm:grid-cols-1 max-xl:grid-cols-2 grid-cols-3 gap-5 lg:gap-10">
 
-        {loading ? [...repos].map(() =>
-          <Card>
+        {loading ? [...repos].map((v, k) =>
+          <Card key={v + k}>
             <CardHeader>
               <CardTitle className="flex items-center justify-between font-normal">
                 <Skeleton className="h-7 rounded-full w-3/4" />
@@ -123,8 +123,8 @@ const Project = () => {
           </Card>)
           :
           [...data].map((v, k) =>
-            <motion.a whileHover={{ scale: 1.1 }} target="_blank" href={`https://github.com/kurniawanpratama1999/${repos[k]}`}>
-              <Card key={v.created_at + "-" + k} className="h-full">
+            <motion.a key={v.created_at + "-" + k} whileHover={{ scale: 1.1 }} target="_blank" href={`https://github.com/kurniawanpratama1999/${repos[k]}`}>
+              <Card className="h-full">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between font-normal">
                     <h3 className="font-bold capitalize">{repos[k]}</h3>
