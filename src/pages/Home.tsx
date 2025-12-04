@@ -100,7 +100,7 @@ const Project = () => {
 
   return <section className="w-full">
     <div className="container mx-auto pb-10">
-      <div className="grid max-xl:grid-cols-2 grid-cols-3 gap-10">
+      <div className="grid max-sm:grid-cols-1 max-xl:grid-cols-2 grid-cols-3 gap-10">
 
         {loading ? [...repos].map(() =>
           <Card>
