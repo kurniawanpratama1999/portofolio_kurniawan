@@ -95,12 +95,13 @@ const Hero = () => {
 }
 
 const Project = () => {
-  const repos = ['LARAPOS425', 'miesabi-laravel10']
+  const repos = ['LARAPOS425', 'LAUNDRY425', 'miesabi-laravel10']
   const { data, loading } = useFetchRepo(repos)
 
   return <section className="w-full">
-    <div className="container mx-auto pb-10">
-      <div className="grid max-sm:grid-cols-1 max-xl:grid-cols-2 grid-cols-3 gap-10">
+    <div className="container mx-auto py-10">
+      <h2 className="text-2xl font-bold mb-4 text-center underline text-emerald-600">My Repositories</h2>
+      <div className="grid max-sm:grid-cols-1 max-xl:grid-cols-2 grid-cols-3 gap-5 lg:gap-10">
 
         {loading ? [...repos].map(() =>
           <Card>
@@ -123,11 +124,11 @@ const Project = () => {
           </Card>)
           :
           [...data].map((v, k) =>
-            <NavLink to={`https://github.com/kurniawanpratama1999/${repos[k]}`}>
-              <Card key={v.created_at + "-" + k}>
+            <motion.a whileHover={{ scale: 1.1 }} target="_blank" href={`https://github.com/kurniawanpratama1999/${repos[k]}`}>
+              <Card key={v.created_at + "-" + k} className="h-full">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between font-normal">
-                    <h3 className="font-bold">{repos[k]}</h3>
+                    <h3 className="font-bold capitalize">{repos[k]}</h3>
                     <div className="flex items-center gap-3 justify-end">
                       <div className="flex items-center gap-1">
                         <GoRepoForked />
@@ -140,10 +141,13 @@ const Project = () => {
                     </div>
                   </CardTitle>
                   <CardDescription>
-                    {v.description}
+                    <p className="line-clamp-3">
+                      {v.description ?? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis, at! Magni eos itaque eaque.'}
+
+                    </p>
                   </CardDescription>
                 </CardHeader>
-                <CardFooter className="flex items-start justify-between">
+                <CardFooter className="flex items-start justify-between mt-auto">
                   <Badge className="flex items-center gap-1 bg-emerald-400">
                     <FiFolderPlus />
                     <span>{v.created_at}</span>
@@ -155,7 +159,7 @@ const Project = () => {
                 </CardFooter>
               </Card>
 
-            </NavLink>
+            </motion.a>
           )}
       </div>
     </div>

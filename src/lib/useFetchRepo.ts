@@ -18,9 +18,7 @@ export default function useFetchRepo(repos: string[]) {
     const fetchRepo = async () => {
       try {
         const apis = repos.map((repo) =>
-          fetch(
-            `https://portofolio-kurniawan.vercel.app/api/github?repo=${repo}`
-          )
+          fetch(`http://localhost:3000/api/github?repo=${repo}`)
         );
 
         const responses = await Promise.allSettled(apis);
