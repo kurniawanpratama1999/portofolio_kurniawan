@@ -14,6 +14,7 @@ import { GoRepoForked } from "@react-icons/all-files/go/GoRepoForked";
 import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
 import { FiFolderPlus } from "@react-icons/all-files/fi/FiFolderPlus";
 import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
+import { useEffect } from "react";
 
 // import useRepoStatus from "@/lib/useRepoStatus";
 
@@ -135,7 +136,15 @@ const Project = () => {
 }
 
 const Home = () => {
+  useEffect(() => {
+    const fetchingGithub = async () => {
+      const api = await fetch('/api/github/repo=LARAPOS425')
+      const response = await api.json()
+      console.log(response)
+    }
 
+    fetchingGithub()
+  }, [])
   return (
     <>
       <Hero />
