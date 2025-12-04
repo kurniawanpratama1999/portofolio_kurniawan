@@ -2,70 +2,124 @@ import { useEffect, useState } from "react";
 
 export default function useRepoStatus({
   username,
-  repo,
+  repos,
 }: {
   username: string;
-  repo: string[];
+  repos: string[];
 }) {
+  const [datas, setDatas] = useState<
+    {
+      success: boolean;
+      createdAt: string;
+      latestCommit: string;
+      totalCommit: number;
+      stars: number;
+      forks: number;
+    }[]
+  >([]);
+
+  const [counterCommit, setCounterCommit] = useState(0);
+  const [counterRepo, setCounterRepo] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [dataRepo, setdataRepo] = useState<{
-    createdAt: string;
-    latestCommit: string;
-    forks: number;
-    stars: number;
-  }>({
-    createdAt: "",
-    latestCommit: "",
-    forks: 0,
-    stars: 0,
-  });
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    const fetchCommit = async () => {
+    repos.forEach(() => {
+      setDatas((prev) => [
+        ...prev,
+        {
+          success: true,
+          createdAt: "",
+          latestCommit: "",
+          totalCommit: 0,
+          stars: 0,
+          forks: 0,
+        },
+      ]);
+    });
+
+    const fetchingGithub = async () => {
       try {
-        const repoRes = await fetch(
-          `https://api.github.com/repos/${username}/${repo}`
+        const API_REPO = repos.map((repo) =>
+          fetch(`https://api.github.com/repos/${username}/${repo}`)
         );
 
-        if (!repoRes.ok) {
-          throw new Error("Gagal ambil data repo");
-        }
-
-        const commitRes = await fetch(
-          `https://api.github.com/repos/${username}/${repo}/commits`
+        const API_COMMIT = repos.map((repo) =>
+          fetch(`https://api.github.com/repos/${username}/${repo}/commits`)
         );
 
-        if (!commitRes.ok) {
-          throw new Error("Gagal ambil data commit");
+        const responsesRepo = await Promise.allSettled(API_REPO);
+        const responsesCommit = await Promise.allSettled(API_COMMIT);
+
+        for (const responseCommit of responsesCommit) {
+          if (responseCommit.status === "fulfilled") {
+            const resultCommit = await responseCommit.value.json();
+            console.log(resultCommit);
+            const totalCommit = resultCommit.length;
+            const lastCommit = new Date(resultCommit[0].commit.author.date);
+            const getDayLastCommit = lastCommit.getDay();
+            const getMonthLastCommit = lastCommit.getMonth() + 1;
+            const getYearLastCommit = lastCommit.getFullYear();
+
+            const latestCommit = `${getDayLastCommit}-${getMonthLastCommit}-${getYearLastCommit}`;
+
+            setDatas((prevs) =>
+              prevs.map((prev, idxPrev) =>
+                idxPrev === counterCommit
+                  ? { ...prev, totalCommit, latestCommit }
+                  : prev
+              )
+            );
+          } else {
+            setDatas((prevs) =>
+              prevs.map((prev, idxPrev) =>
+                idxPrev === counterCommit ? { ...prev, success: false } : prev
+              )
+            );
+          }
+
+          setCounterCommit((prev) => prev + 1);
         }
 
-        const repoData = await repoRes.json();
-        const commitData = await commitRes.json();
-        const latestCommit = commitData[0].commit.author.date;
+        for (const responseRepo of responsesRepo) {
+          if (responseRepo.status === "fulfilled") {
+            const resultRepo = await responseRepo.value.json();
 
-        const dayCommit = new Date(latestCommit).getDate();
-        const monthCommit = new Date(latestCommit).getMonth();
-        const yearCommit = new Date(latestCommit).getFullYear();
-
-        const dayCreate = new Date(repoData.created_at).getDate();
-        const monthCreate = new Date(repoData.created_at).getMonth();
-        const yearCreate = new Date(repoData.created_at).getFullYear();
-
-        setdataRepo({
-          latestCommit: `${dayCommit}-${monthCommit + 1}-${yearCommit}`,
-          createdAt: `${dayCreate}-${monthCreate + 1}-${yearCreate}`,
-          forks: repoData.forks_count,
-          stars: repoData.stargazers_count,
-        });
+            const { stargazers_count, forks_count, createdAt } = resultRepo;
+            const convertCreatedAtToDate = new Date(createdAt);
+            const getDayRepoCreated = convertCreatedAtToDate.getDay();
+            const getMonthRepoCreated = convertCreatedAtToDate.getMonth() + 1;
+            const getYearRepoCreated = convertCreatedAtToDate.getFullYear();
+            const repoCreatedAt = `${getDayRepoCreated}-${getMonthRepoCreated}-${getYearRepoCreated}`;
+            setDatas((prevs) =>
+              prevs.map((prev, idxPrev) =>
+                idxPrev === counterRepo
+                  ? {
+                      ...prev,
+                      stars: stargazers_count,
+                      forks: forks_count,
+                      createdAt: repoCreatedAt,
+                    }
+                  : prev
+              )
+            );
+          } else {
+            setDatas((prevs) =>
+              prevs.map((prev, idxPrev) =>
+                idxPrev === counterRepo ? { ...prev, success: false } : prev
+              )
+            );
+          }
+          setCounterRepo((prev) => prev + 1);
+        }
       } catch (error: any) {
-        setErrorMessage(error.message);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCommit();
-  }, [username, repo]);
-
-  return { dataRepo, loading, errorMessage };
+    fetchingGithub();
+  }, [username]);
+  return { datas, loading, error };
 }

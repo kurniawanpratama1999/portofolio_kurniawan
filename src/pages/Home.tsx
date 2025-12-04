@@ -15,7 +15,7 @@ import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
 import { FiFolderPlus } from "@react-icons/all-files/fi/FiFolderPlus";
 import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
 
-import useRepoStatus from "@/lib/useRepoStatus";
+// import useRepoStatus from "@/lib/useRepoStatus";
 
 const Hero = () => {
   return <section className="w-full">
@@ -91,7 +91,8 @@ const Hero = () => {
 }
 
 const Project = () => {
-  const { dataRepo, loading, errorMessage } = useRepoStatus({ username: "kurniawanpratama1999", repo: 'LARAPOS425' })
+  // const { datas, loading, error } = useRepoStatus({ username: 'kurniawanpratama1999', repos: ['LARAPOS425', 'miesabi-laravel10', 'LAUNDRY425'] })
+  // console.log({ datas, loading, error })
   return <section className="w-full">
     <div className="container mx-auto min-h-screen">
       <div className="grid max-xl:grid-cols-2 grid-cols-3 gap-10">
@@ -104,11 +105,11 @@ const Project = () => {
                 <div className="flex items-center gap-3 justify-end">
                   <div className="flex items-center">
                     <GoRepoForked />
-                    <span>{dataRepo.forks}</span>
+                    <span></span>
                   </div>
                   <div className="flex items-center">
                     <FaRegStar />
-                    <span>{dataRepo.stars}</span>
+                    <span></span>
                   </div>
                 </div>
               </CardTitle>
@@ -119,11 +120,11 @@ const Project = () => {
             <CardFooter className="flex items-start justify-between">
               <Badge className="flex items-center gap-1 bg-emerald-400">
                 <FiFolderPlus />
-                <span>{dataRepo.createdAt}</span>
+                <span></span>
               </Badge>
               <Badge className="flex items-center gap-1 bg-blue-400">
                 <GoGitCommit />
-                <span>{dataRepo?.latestCommit}</span>
+                <span></span>
               </Badge>
             </CardFooter>
           </Card>
