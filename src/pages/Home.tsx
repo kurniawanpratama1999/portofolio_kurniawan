@@ -19,7 +19,6 @@ import { useEffect } from "react";
 
 import useFetchRepo from "@/lib/useFetchRepo";
 import { Skeleton } from "@/components/ui/skeleton";
-import { NavLink } from "react-router";
 
 const Hero = () => {
   return <section className="w-full">
