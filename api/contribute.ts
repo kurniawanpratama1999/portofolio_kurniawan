@@ -1,18 +1,22 @@
 export default async function handler(req: any, res: any) {
-  const query = `query {
-          user(login: "kurniawanpratama1999") {
-            contributionsCollection {
-              contributionCalendar {
-                totalContributions {
-                  contributionDays {
-                    datecontributionCountcolor
-                  }
-                }
-              }
+  const query = `
+  query {
+    user(login: "kurniawanpratama1999") {
+      contributionsCollection {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            contributionDays {
+              date
+              contributionCount
+              color
             }
           }
         }
-                    `;
+      }
+    }
+  }
+`;
 
   try {
     const response = await fetch("https://api.github.com/graphql", {
