@@ -78,11 +78,11 @@ export default function useRepository(repos: string[]) {
   return { data, loading, error };
 }
 
-const formatDate = (str: string) => {
-  const toDate = new Date(str);
-  const getDate = toDate.getDate();
-  const getMonth = toDate.getMonth() + 1;
-  const getYear = toDate.getFullYear();
+// const formatDate = (str: string) => {
+//   const toDate = new Date(str);
+//   const getDate = toDate.getDate();
+//   const getMonth = toDate.getMonth() + 1;
+//   const getYear = toDate.getFullYear();
 
-  return `${getDate}-${getMonth}-${getYear}`;
-};
+//   return `${getDate}-${getMonth}-${getYear}`;
+// };
