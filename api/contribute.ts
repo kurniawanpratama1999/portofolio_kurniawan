@@ -3,7 +3,7 @@ export default async function handler(req: any, res: any) {
           user(login: "kurniawanpratama1999") {
             contributionsCollection {
               contributionCalendar {
-                totalContributionsweeks {
+                totalContributions {
                   contributionDays {
                     datecontributionCountcolor
                   }
