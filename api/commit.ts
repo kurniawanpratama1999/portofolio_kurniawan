@@ -12,13 +12,13 @@ export default async function handler(req: any, res: any) {
     }
   );
 
-  const results = await response.json();
-
-  if (!results.ok) {
+  if (!response.ok) {
     return res.status(500).json({
       error: "Gagal ambil commit",
     });
   }
+
+  const results = await response.json();
 
   return res.status(200).json({
     results,
