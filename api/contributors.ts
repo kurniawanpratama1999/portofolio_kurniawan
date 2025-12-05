@@ -1,25 +1,21 @@
 export default async function handler(req: any, res: any) {
-  const query = `
-    query {
-      user(login: "kurniawanpratama1999") {
-        contributionsCollection {
-          contributionCalendar {
-            totalContributions
-            weeks {
-              contributionDays {
-                date
-                contributionCount
-                color
+  const query = `query {
+          user(login: 'kurniawanpratama1999') {
+            contributionsCollection {
+              contributionCalendar {
+                totalContributionsweeks {
+                  contributionDays {
+                    datecontributionCountcolor
+                  }
+                }
               }
             }
           }
         }
-      }
-    }
-  `;
+                    `;
 
   try {
-    const api = await fetch("https://api.github.com/graphql", {
+    const response = await fetch("https://api.github.com/graphql", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,23 +24,22 @@ export default async function handler(req: any, res: any) {
       body: JSON.stringify({ query }),
     });
 
-    // Cek apakah request berhasil
-    if (!api.ok) {
-      const err = await api.text();
+    if (!response.ok) {
+      const err = await response.text();
       console.error("GitHub Error:", err);
       return res
         .status(500)
         .json({ error: "GitHub fetch failed", detail: err });
     }
 
-    const json = await api.json();
+    const results = await response.json();
 
-    if (json.errors) {
-      console.error("GraphQL Errors:", json.errors);
-      return res.status(500).json({ error: json.errors });
+    if (results.errors) {
+      console.error("GraphQL Errors:", results.errors);
+      return res.status(500).json({ error: results.errors });
     }
 
-    return res.status(200).json(json.data);
+    return res.status(200).json({ results });
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }

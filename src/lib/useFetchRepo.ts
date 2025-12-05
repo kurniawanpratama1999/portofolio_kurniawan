@@ -9,7 +9,7 @@ interface DisplayRepos {
   last_commit: string;
 }
 
-export default function useFetchRepo(repos: string[]) {
+export default function useFetchRepo(repo: string) {
   const [data, setData] = useState<DisplayRepos[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<boolean | null>(null);
@@ -17,44 +17,28 @@ export default function useFetchRepo(repos: string[]) {
   useEffect(() => {
     const fetchRepo = async () => {
       try {
-        // const repoStorage = localStorage.getItem("DATA_REPOS");
-        // if (repoStorage) {
-        //   const parse = JSON.parse(repoStorage);
-        //   if (parse.error === null) {
-        //     setData(parse.data || []);
-        //     setLoading(parse.loading ?? false);
-        //     setError(parse.error);
-        //     return;
-        //   }
-        // }
-
-        const baseUrl = window.location.origin;
-        const apis = repos.map((repo) =>
-          fetch(`${baseUrl}/api/github?repo=${repo}`)
+        const apiRepo = await fetch(
+          `https://portofolio-kurniawan/api/repository?repo=${repo}`
         );
 
-        const responses = await Promise.allSettled(apis);
-
-        for (const response of responses) {
-          if (response.status === "fulfilled") {
-            const result = await response.value.json();
-
-            setData((prev) => [
-              ...prev,
-              {
-                ...result,
-                last_commit: formatDate(result.last_commit),
-                created_at: formatDate(result.created_at),
-              },
-            ]);
-          }
+        if (!apiRepo.ok) {
+          throw new Error("Gagal ambil data repo");
         }
 
-        localStorage.setItem(
-          "DATA_REPOS",
-          JSON.stringify({ data, loading, error })
+        const responseRepo = await apiRepo.json();
+
+        const apiCommit = await fetch(
+          `https://portofolio-kurniawan/api/commit?repo=${repo}`
         );
-        setError(false);
+
+        if (!apiCommit.ok) {
+          throw new Error("Gagal ambil data commit");
+        }
+
+        const responseCommit = await apiCommit.json();
+        console.log({ responseRepo, responseCommit });
+        formatDate("2025-05-11");
+        setData(responseCommit);
       } catch (error: any) {
         setError(error.message);
       } finally {

@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge"
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+// import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FaLaravel } from "@react-icons/all-files/fa/FaLaravel";
 import { FaReact } from "@react-icons/all-files/fa/FaReact";
 import { FaVuejs } from "@react-icons/all-files/fa/FaVuejs";
@@ -10,16 +10,14 @@ import { FaCss3 } from "@react-icons/all-files/fa/FaCss3";
 import { SiTailwindcss } from "@react-icons/all-files/si/SiTailwindcss";
 import { SiBootstrap } from "@react-icons/all-files/si/SiBootstrap";
 import { SiMysql } from "@react-icons/all-files/si/SiMysql";
-import { GoRepoForked } from "@react-icons/all-files/go/GoRepoForked";
-import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
-import { FiFolderPlus } from "@react-icons/all-files/fi/FiFolderPlus";
-import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
+// import { GoRepoForked } from "@react-icons/all-files/go/GoRepoForked";
+// import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
+// import { FiFolderPlus } from "@react-icons/all-files/fi/FiFolderPlus";
+// import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
 import * as motion from "motion/react-client"
-import { useEffect } from "react";
 
 import useFetchRepo from "@/lib/useFetchRepo";
-import { Skeleton } from "@/components/ui/skeleton";
-// import useFetchContributors from "@/lib/useFetchContributors";
+// import { Skeleton } from "@/components/ui/skeleton";
 
 const Hero = () => {
   return <section className="w-full" id="home">
@@ -98,14 +96,13 @@ const Hero = () => {
 
 const Project = () => {
   const repos = ['LARAPOS425', 'LAUNDRY425', 'miesabi-laravel10']
-  const { data, loading } = useFetchRepo(repos)
-  // const { data: contributors } = useFetchContributors()
+  useFetchRepo(repos[0])
   return <section className="w-full" id="repo">
     <div className="container mx-auto py-10">
       <h2 className="text-2xl font-bold mb-4 text-center underline text-emerald-600">My Repositories</h2>
       <div className="grid max-sm:grid-cols-1 max-xl:grid-cols-2 grid-cols-3 gap-5 lg:gap-10">
 
-        {loading ? [...repos].map((v, k) =>
+        {/* {loading ? [...repos].map((v, k) =>
           <Card key={v + k}>
             <CardHeader>
               <CardTitle className="flex items-center justify-between font-normal">
@@ -162,7 +159,7 @@ const Project = () => {
               </Card>
 
             </motion.a>
-          )}
+          )} */}
       </div>
     </div>
   </section>
