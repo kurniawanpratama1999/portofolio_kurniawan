@@ -169,15 +169,6 @@ const Project = () => {
 }
 
 const Home = () => {
-  useEffect(() => {
-    const fetchingGithub = async () => {
-      const api = await fetch('/api/github/repo=LARAPOS425')
-      const response = await api.json()
-      console.log(response)
-    }
-
-    fetchingGithub()
-  }, [])
   return (
     <>
       <Hero />
