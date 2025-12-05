@@ -16,7 +16,7 @@ import { SiMysql } from "@react-icons/all-files/si/SiMysql";
 // import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
 import * as motion from "motion/react-client"
 
-import useFetchRepo from "@/lib/useFetchRepo";
+import useFetchRepo from "@/lib/useRepository";
 // import { Skeleton } from "@/components/ui/skeleton";
 
 const Hero = () => {
@@ -96,7 +96,7 @@ const Hero = () => {
 
 const Project = () => {
   const repos = ['LARAPOS425', 'LAUNDRY425', 'miesabi-laravel10']
-  useFetchRepo(repos[0])
+  useFetchRepo(repos)
   return <section className="w-full" id="repo">
     <div className="container mx-auto py-10">
       <h2 className="text-2xl font-bold mb-4 text-center underline text-emerald-600">My Repositories</h2>
