@@ -15,10 +15,8 @@ export default async function handler(req: any, res: any) {
   const results = await response.json();
 
   if (!results.ok) {
-    const err = await results.text();
     return res.status(500).json({
       error: "Gagal ambil commit",
-      detail: err,
     });
   }
 

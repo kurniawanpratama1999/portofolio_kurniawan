@@ -25,11 +25,7 @@ export default async function handler(req: any, res: any) {
     });
 
     if (!response.ok) {
-      const err = await response.text();
-      console.error("GitHub Error:", err);
-      return res
-        .status(500)
-        .json({ error: "GitHub fetch failed", detail: err });
+      return res.status(500).json({ error: "GitHub fetch failed" });
     }
 
     const results = await response.json();
