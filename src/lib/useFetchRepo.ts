@@ -17,16 +17,16 @@ export default function useFetchRepo(repos: string[]) {
   useEffect(() => {
     const fetchRepo = async () => {
       try {
-        const repoStorage = localStorage.getItem("DATA_REPOS");
-        if (repoStorage) {
-          const parse = JSON.parse(repoStorage);
-          if (parse.error === null) {
-            setData(parse.data || []);
-            setLoading(parse.loading ?? false);
-            setError(parse.error);
-            return;
-          }
-        }
+        // const repoStorage = localStorage.getItem("DATA_REPOS");
+        // if (repoStorage) {
+        //   const parse = JSON.parse(repoStorage);
+        //   if (parse.error === null) {
+        //     setData(parse.data || []);
+        //     setLoading(parse.loading ?? false);
+        //     setError(parse.error);
+        //     return;
+        //   }
+        // }
 
         const baseUrl = window.location.origin;
         const apis = repos.map((repo) =>
