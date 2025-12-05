@@ -26,8 +26,8 @@ const Hero = () => {
     <div className="container mx-auto min-h-screen content-center">
       <div className="grid lg:grid-cols-2 gap-10 max-lg:p-5">
         <motion.div initial={{ x: '-100%' }} whileInView={{ x: 0 }} className="content-center max-lg:order-2">
-          <h1 className="text-4xl font-bold">Hello Everyone 👋</h1>
-          <p className="text-3xl font-bold">I am Kurniawan Pratama</p>
+          <h1 className="text-3xl lg:text-4xl font-bold">Hello Everyone 👋</h1>
+          <p className="text-2xl lg:text-3xl font-bold">I am Kurniawan Pratama</p>
           <p className="text-neutral-500">
             Sudah lebih dari 1 tahu saya beraktivitas dengan bahasa pemrograman dan saya sangat menyukainya, walaupun latar belakang pendidikan saya adalah Sarjana Manajemen, tetapi membuat kode mengaktifkan dopamine di otak saya, karena didalamnya terdapat masalah-masalah yang harus saya pecahkan, dan ketika masalah itu terpecahkan, makna yang sebernarnya dari coding saya dapatkan, yaitu kesanangan, belajar, dan berkontribusi.
           </p>
