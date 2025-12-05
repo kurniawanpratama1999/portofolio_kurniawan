@@ -1,6 +1,6 @@
 export default async function handler(req: any, res: any) {
   const query = `query {
-          user(login: 'kurniawanpratama1999') {
+          user(login: "kurniawanpratama1999") {
             contributionsCollection {
               contributionCalendar {
                 totalContributionsweeks {
@@ -29,11 +29,6 @@ export default async function handler(req: any, res: any) {
     }
 
     const results = await response.json();
-
-    if (results.errors) {
-      console.error("GraphQL Errors:", results.errors);
-      return res.status(500).json({ error: results.errors });
-    }
 
     return res.status(200).json({ results });
   } catch (error: any) {
