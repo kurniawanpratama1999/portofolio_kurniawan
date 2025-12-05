@@ -12,11 +12,22 @@ interface DisplayRepos {
 export default function useFetchRepo(repos: string[]) {
   const [data, setData] = useState<DisplayRepos[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<boolean | null>(null);
 
   useEffect(() => {
     const fetchRepo = async () => {
       try {
+        const repoStorage = localStorage.getItem("DATA_REPOS");
+        if (repoStorage) {
+          const parse = JSON.parse(repoStorage);
+          if (parse.error === null) {
+            setData(parse.data || []);
+            setLoading(parse.loading ?? false);
+            setError(parse.error);
+            return;
+          }
+        }
+
         const baseUrl = window.location.origin;
         const apis = repos.map((repo) =>
           fetch(`${baseUrl}/api/github?repo=${repo}`)
@@ -38,6 +49,12 @@ export default function useFetchRepo(repos: string[]) {
             ]);
           }
         }
+
+        localStorage.setItem(
+          "DATA_REPOS",
+          JSON.stringify({ data, loading, error })
+        );
+        setError(false);
       } catch (error: any) {
         setError(error.message);
       } finally {

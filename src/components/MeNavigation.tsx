@@ -13,6 +13,7 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger
@@ -22,9 +23,8 @@ import { Button } from "@/components/ui/button";
 
 const NavList = () => {
   const list = [
-    { to: '/', label: 'Home' },
-    { to: '/', label: 'About' },
-    { to: '/', label: 'Contact' },
+    { to: '#home', label: 'Home' },
+    { to: '#repo', label: 'Repo' },
   ];
   return list.map((v, k) =>
     <NavigationMenuItem key={v.label + '-' + k}>
@@ -56,8 +56,9 @@ export default function MeNavigation() {
           </SheetTrigger>
 
           <SheetContent className="top-14">
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
+            <SheetHeader className="hidden">
+              <SheetTitle>Daftar Menu</SheetTitle>
+              <SheetDescription>Portofolio masih dalam tahap pengerjaan!</SheetDescription>
             </SheetHeader>
 
             <NavigationMenu className="items-start pl-3" orientation="vertical" aria-orientation="vertical">

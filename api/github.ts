@@ -18,7 +18,6 @@ export default async function handler(req: any, res: any) {
 
   const repoData = await response.json();
 
-  // --- ambil commit ---
   const commitsRes = await fetch(
     `https://api.github.com/repos/kurniawanpratama1999/${repo}/commits`,
     {

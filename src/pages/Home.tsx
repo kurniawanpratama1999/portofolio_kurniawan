@@ -19,15 +19,18 @@ import { useEffect } from "react";
 
 import useFetchRepo from "@/lib/useFetchRepo";
 import { Skeleton } from "@/components/ui/skeleton";
+// import useFetchContributors from "@/lib/useFetchContributors";
 
 const Hero = () => {
-  return <section className="w-full">
+  return <section className="w-full" id="home">
     <div className="container mx-auto min-h-screen content-center">
       <div className="grid lg:grid-cols-2 gap-10 max-lg:p-5">
         <motion.div initial={{ x: '-100%' }} whileInView={{ x: 0 }} className="content-center max-lg:order-2">
           <h1 className="text-4xl font-bold">Hello Everyone 👋</h1>
           <p className="text-3xl font-bold">I am Kurniawan Pratama</p>
-          <p className="text-neutral-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quam cumque natus quaerat exercitationem voluptates labore! Excepturi, tempore error. Commodi ipsam recusandae laudantium odit sit aut placeat rem nulla atque.</p>
+          <p className="text-neutral-500">
+            Sudah lebih dari 1 tahu saya beraktivitas dengan bahasa pemrograman dan saya sangat menyukainya, walaupun latar belakang pendidikan saya adalah Sarjana Manajemen, tetapi membuat kode mengaktifkan dopamine di otak saya, karena didalamnya terdapat masalah-masalah yang harus saya pecahkan, dan ketika masalah itu terpecahkan, makna yang sebernarnya dari coding saya dapatkan, yaitu kesanangan, belajar, dan berkontribusi.
+          </p>
 
           <p className="mt-3 font-bold">Framework:</p>
           <div className="flex gap-2 flex-wrap">
@@ -96,8 +99,8 @@ const Hero = () => {
 const Project = () => {
   const repos = ['LARAPOS425', 'LAUNDRY425', 'miesabi-laravel10']
   const { data, loading } = useFetchRepo(repos)
-
-  return <section className="w-full">
+  // const { data: contributors } = useFetchContributors()
+  return <section className="w-full" id="repo">
     <div className="container mx-auto py-10">
       <h2 className="text-2xl font-bold mb-4 text-center underline text-emerald-600">My Repositories</h2>
       <div className="grid max-sm:grid-cols-1 max-xl:grid-cols-2 grid-cols-3 gap-5 lg:gap-10">
