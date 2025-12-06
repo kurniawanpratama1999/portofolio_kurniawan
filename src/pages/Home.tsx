@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge"
-// import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { FaLaravel } from "@react-icons/all-files/fa/FaLaravel";
 import { FaReact } from "@react-icons/all-files/fa/FaReact";
 import { FaVuejs } from "@react-icons/all-files/fa/FaVuejs";
@@ -10,14 +11,13 @@ import { FaCss3 } from "@react-icons/all-files/fa/FaCss3";
 import { SiTailwindcss } from "@react-icons/all-files/si/SiTailwindcss";
 import { SiBootstrap } from "@react-icons/all-files/si/SiBootstrap";
 import { SiMysql } from "@react-icons/all-files/si/SiMysql";
-// import { GoRepoForked } from "@react-icons/all-files/go/GoRepoForked";
-// import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
-// import { FiFolderPlus } from "@react-icons/all-files/fi/FiFolderPlus";
-// import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
+import { GoRepoForked } from "@react-icons/all-files/go/GoRepoForked";
+import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
+import { FiFolderPlus } from "@react-icons/all-files/fi/FiFolderPlus";
+import { GoGitCommit } from "@react-icons/all-files/go/GoGitCommit";
 import * as motion from "motion/react-client"
 
-import useFetchRepo from "@/lib/useRepository";
-// import { Skeleton } from "@/components/ui/skeleton";
+import useFetchRepo, { type Contribution, type ContributionDays, type RepoAndCommit } from "@/lib/useRepository";
 
 const Hero = () => {
   return <section className="w-full" id="home">
@@ -94,15 +94,31 @@ const Hero = () => {
   </section>
 }
 
+const CtrDays = ({ daydata }: { daydata?: ContributionDays }) => {
+  return <div className="size-5 rounded m-px border" style={{ backgroundColor: daydata?.color }}></div>
+}
+
+const Week = ({ data }: { data?: Contribution }) => {
+  const contributionWeek = data?.contribution_week ?? [];
+  return contributionWeek.map((v, k) => <div key={'week' + k}>
+    {v.contributionDays?.map((d) => <CtrDays key={d.date} daydata={d} />)}
+  </div>)
+}
+
 const Project = () => {
   const repos = ['LARAPOS425', 'LAUNDRY425', 'miesabi-laravel10']
-  useFetchRepo(repos)
+  const { data, loading } = useFetchRepo(repos)
+  const repoAndCommit: RepoAndCommit[] = data?.repoAndCommit ?? [];
+
   return <section className="w-full" id="repo">
     <div className="container mx-auto py-10">
       <h2 className="text-2xl font-bold mb-4 text-center underline text-emerald-600">My Repositories</h2>
+      <div className="flex w-full mx-auto mb-3 justify-center overflow-x-auto">
+        <Week data={data?.contribution} />
+      </div>
       <div className="grid max-sm:grid-cols-1 max-xl:grid-cols-2 grid-cols-3 gap-5 lg:gap-10">
 
-        {/* {loading ? [...repos].map((v, k) =>
+        {loading ? [...repos].map((v, k) =>
           <Card key={v + k}>
             <CardHeader>
               <CardTitle className="flex items-center justify-between font-normal">
@@ -122,7 +138,7 @@ const Project = () => {
             </CardHeader>
           </Card>)
           :
-          [...data].map((v, k) =>
+          repoAndCommit.map((v: RepoAndCommit, k: number) =>
             <motion.a key={v.created_at + "-" + k} whileHover={{ scale: 1.1 }} target="_blank" href={`https://github.com/kurniawanpratama1999/${repos[k]}`}>
               <Card className="h-full">
                 <CardHeader>
@@ -159,7 +175,7 @@ const Project = () => {
               </Card>
 
             </motion.a>
-          )} */}
+          )}
       </div>
     </div>
   </section>
