@@ -66,7 +66,7 @@ const HeroDescription = (): React.ReactNode => {
 const MeHero = (): React.ReactNode => {
     return <section className="w-full" id="home">
         <div className="container mx-auto min-h-screen content-center">
-            <div className="grid lg:grid-cols-2 gap-10 max-lg:p-5">
+            <div className="grid lg:grid-cols-2 gap-10 max-lg:p-5 overflow-x-hidden">
                 <HeroDescription />
                 <HeroImage />
             </div>
