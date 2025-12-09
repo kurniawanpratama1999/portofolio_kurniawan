@@ -4,7 +4,7 @@ import MeRepository from "@/components/MeRepository";
 import MeContributes from "@/components/MeContributes";
 
 const Home = () => {
-  const repos = ['LARAPOS425', 'LAUNDRY425', 'miesabi-laravel10', 'portofolio_kurniawan']
+  const repos = ['LARAPOS425', 'LAUNDRY425', 'miesabi-laravel10', 'portofolio_kurniawan', 'pos-express']
   const { data, loading } = useFetchRepo(repos)
   const repoAndCommit: RepoAndCommit[] = data?.repoAndCommit ?? [];
   const contribution: Contribution = data?.contribution as Contribution;
